@@ -12,11 +12,22 @@ import SkillsReference from './components/SkillsReference';
 import Credentials from './components/Credentials';
 import MapSkeleton from './components/MapSkeleton';
 import ContactFooter from './components/ContactFooter';
+import NotFound from './components/NotFound';
+import Mascot from './components/Mascot';
 
 // Lazy-load ProjectMap to maintain high performance
 const ProjectMap = lazy(() => import('./components/ProjectMap'));
 
 export default function App() {
+  // Simple check for any route other than the root
+  if (window.location.pathname !== '/') {
+    return (
+      <ThemeProvider>
+        <NotFound />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-bgPrimary text-textPrimary transition-colors duration-300 selection:bg-accent selection:text-white relative overflow-x-hidden font-sans">
@@ -63,6 +74,8 @@ export default function App() {
           {/* 9. Contact form & links footer */}
           <ContactFooter />
         </main>
+
+        <Mascot />
       </div>
     </ThemeProvider>
   );
