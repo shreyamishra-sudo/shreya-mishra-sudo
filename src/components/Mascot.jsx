@@ -6,8 +6,14 @@ export default function Mascot() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    // Start breathing animation on the container if anime is ready
-    if (window.anime) {
+    // Reliable initialization polling for CDN-loaded anime.js
+    const initAnime = () => {
+      if (!window.anime) {
+        setTimeout(initAnime, 50);
+        return;
+      }
+      
+      // Start breathing animation on the container
       window.anime({
         targets: containerRef.current,
         translateY: [0, -3, 0],
@@ -19,7 +25,9 @@ export default function Mascot() {
       // Ensure initial state
       window.anime.set('.typing-pose', { opacity: 0, translateY: 15 });
       window.anime.set('.idle-pose', { opacity: 1, translateY: 0 });
-    }
+    };
+    
+    initAnime();
 
     const handleScroll = () => {
       if (!window.anime) return;
